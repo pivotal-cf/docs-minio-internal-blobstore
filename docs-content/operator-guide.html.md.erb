@@ -13,7 +13,7 @@ This topic describes how to install and configure Minio Internal Blobstore for P
 This adds the tile to the staging area.</li>
 </ol>
 
-##<a id='configure'></a> Configure Minio Tile
+##<a id='configure'></a> Configure Minio Internal Blobstore for PCF
 
 <ol>
 <li>Click on the newly added <strong>Minio Internal Blobstore for PCF</strong> Tile.</li>
@@ -40,7 +40,8 @@ This adds the tile to the staging area.</li>
 <img src="images/buckets.png">
 
   <ul>
-  <li>Configure the bucket names. The same bucket names will have to be configured in the PAS (Pivotal Application Service) Tile while configuring "External S3 Compatible blobstore" section.</li>
+  <li>Configure the bucket names. The same bucket names will have to be entered in the PAS (Pivotal Application Service) 
+Tile while configuring the "External S3 Compatible blobstore" section.</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
 
@@ -48,7 +49,7 @@ This adds the tile to the staging area.</li>
 <img src="images/errands.png">
 
   <ul>
-  <li>There are two post-deploy errands - one to create the default buckets, other to do the smoke tests.</li>
+  <li>There are two post-deploy errands: one to create the default buckets, the other to do the smoke tests.</li>
   <li>There is one pre-delete errand which ensures that all the buckets have been deleted before removal of the Tile.</li>
   </ul>
 
@@ -56,7 +57,13 @@ This adds the tile to the staging area.</li>
 <img src="images/resource-config.png">
 
   <ul>
-  <li><strong>minio-server:</strong> For distributed mode, the number of instances should even number (atleast 4 and atmost 16). You can select the disk size based on the requirements. Usable space of the Minio cluster is calculated as <i>(n/2)*d</i> where <i>n</i> is the number of instances and <i>d</i> is the disk size on each instance. Half the instances stores the data and the other half instances store the parity. The cluster can sustain <i>n/2</i> number of instance failures and still be able to serve read requests. For writes, atleast <i>(n/2)+1</i> number of instances should be available. For example if 6 instances are configured with each instance having 200G, total usable space will be 600G <i>(6/2 * 200)</i>
+  <li><strong>minio-server:</strong> For distributed mode, the number of instances should be an even number (atleast 4 and atmost 16). 
+You can select the disk size based on the requirements. Usable space of the Minio cluster is calculated as <i>(n/2)*d</i> 
+where <i>n</i> is the number of instances and <i>d</i> is the disk size on each instance. 
+Half the instances store the data and the other half of the instances store the parity. 
+The cluster can sustain <i>n/2</i> number of instance failures and still be able to serve read requests. 
+For writes, atleast <i>(n/2)+1</i> number of instances should be available. 
+For example if 6 instances are configured with each instance having 200G, total usable space will be 600G <i>(6/2 * 200)</i>
   </li>
   <li><strong>load-balancer:</strong> Load balancer for the Minio instances.</li>
   <li>Click <strong>Save</strong>.</li>
@@ -65,12 +72,12 @@ This adds the tile to the staging area.</li>
 <li>Return to the Ops Manager Installation Dashboard and click <strong>Review Pending Changes</strong> and then <strong>Apply Changes</strong> to install the Minio Internal Blobstore Tile.</li>
 <img src="images/applying-changes.png">
 
-<li>Note down the IP address of the load-balancer<br/>
+<li>Note the IP address of the load-balancer<br/>
   <img src="images/status.png">
 
   <ul>
   <li>Click the newly installed Tile and Click the "Status" tab.</li>
-  <li>Note down the IP address of the load-balancer. This needs to be configured in the PAS Tile while configuring "External S3 Compatible blobstore" section.</li>
+  <li>Note the IP address of the load-balancer. This needs to be entered in the PAS Tile while configuring the "External S3 Compatible blobstore" section.</li>
   </ul>
 
 </ol>
