@@ -1,0 +1,76 @@
+---
+title: Operator Guide
+owner: Partners
+---
+
+This topic describes how to install and configure Minio Internal Blobstore for Pivotal Cloud Foundry (PCF).
+
+##<a id='install'></a> Install Minio Internal Blobstore for PCF
+<ol>
+<li>Download the <strong>Minio Internal Blobstore for PCF</strong> Tile from Pivotal Network.</li>
+<li>Navigate to the Ops Manager Installation Dashboard and click <strong>Import a Product</strong> to upload the tile.</li> 
+<li>Under the <strong>Import a Product</strong> button, click <strong>+</strong> next to the version number of Minio Internal Blobstore for PCF. 
+This adds the tile to the staging area.</li>
+</ol>
+
+##<a id='configure'></a> Configure Minio Tile
+
+<ol>
+<li>Click on the newly added <strong>Minio Internal Blobstore for PCF</strong> Tile.</li>
+<li>Assign AZs and Networks<br/>
+<img src="images/az.png">
+
+  <ul>
+  <li>Configure region for singleton jobs (load-balancer).</li>
+  <li>Configure regions for other jobs (minio-server).</li>
+  <li>Configure the Network.</li>
+  <li>Click <strong>Save</strong>.</li>
+  </ul>
+
+<li>Configure Credentials<br/>
+<img src="images/creds.png">
+
+  <ul>
+  <li>Configure AccessKey for Minio (should be of minimum 5 characters). You can leave it to the default value of "minio".</li>
+  <li>Configure SecretKey for Minio (should be of minimum 8 characters). Type in a strong secret key.</li>
+  <li>Click <strong>Save</strong>.</li>
+  </ul>
+
+<li>Configure Bucket names<br/>
+<img src="images/buckets.png">
+
+  <ul>
+  <li>Configure the bucket names. The same bucket names will have to be configured in the PAS (Pivotal Application Service) Tile while configuring "External S3 Compatible blobstore" section.</li>
+  <li>Click <strong>Save</strong>.</li>
+  </ul>
+
+<li>Errands<br/>
+<img src="images/errands.png">
+
+  <ul>
+  <li>There are two post-deploy errands - one to create the default buckets, other to do the smoke tests.</li>
+  <li>There is one pre-delete errand which ensures that all the buckets have been deleted before removal of the Tile.</li>
+  </ul>
+
+<li>Resource Config<br/>
+<img src="images/resource-config.png">
+
+  <ul>
+  <li><strong>minio-server:</strong> For distributed mode, the number of instances should even number (atleast 4 and atmost 16). You can select the disk size based on the requirements. Usable space of the Minio cluster is calculated as <i>(n/2)*d</i> where <i>n</i> is the number of instances and <i>d</i> is the disk size on each instance. Half the instances stores the data and the other half instances store the parity. The cluster can sustain <i>n/2</i> number of instance failures and still be able to serve read requests. For writes, atleast <i>(n/2)+1</i> number of instances should be available. For example if 6 instances are configured with each instance having 200G, total usable space will be 600G <i>(6/2 * 200)</i>
+  </li>
+  <li><strong>load-balancer:</strong> Load balancer for the Minio instances.</li>
+  <li>Click <strong>Save</strong>.</li>
+  </ul>
+
+<li>Return to the Ops Manager Installation Dashboard and click <strong>Review Pending Changes</strong> and then <strong>Apply Changes</strong> to install the Minio Internal Blobstore Tile.</li>
+<img src="images/applying-changes.png">
+
+<li>Note down the IP address of the load-balancer<br/>
+  <img src="images/status.png">
+
+  <ul>
+  <li>Click the newly installed Tile and Click the "Status" tab.</li>
+  <li>Note down the IP address of the load-balancer. This needs to be configured in the PAS Tile while configuring "External S3 Compatible blobstore" section.</li>
+  </ul>
+
+</ol>
