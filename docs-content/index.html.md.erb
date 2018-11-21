@@ -14,18 +14,20 @@ Minio is an open source object storage server with an Amazon S3-compatible API.
 
 ## <a id='overview'></a>Overview
 
-Minio Internal Blobstore for PCF is a distributed S3 compatible blobstore for Pivotal Application Service(PAS). 
-Operators can use Minio as blobstore for PAS instead of the internal WebDAV/NFS (which are single points of failure).
+Minio Internal Blobstore for PCF is a distributed S3 compatible blobstore for Pivotal Application Service (PAS). 
+Operators can use Minio as blobstore for PAS instead of the internal WebDAV/NFS, which are single points of failure.
 
 ## <a id='overview'></a>Key Features
 Minio for PCF includes the following key features:
 
-* **Amazon S3-compatible:** Amazon S3 API is the de facto standard for object storage. Minio implements the Amazon S3 API.
+* **Amazon S3-compatible:** Amazon S3 API is the de facto standard for object storage.
+Minio implements the Amazon S3 API.
 * **Data protection:** Minio protects data against hardware failures using erasure code and bitrot detection. 
 You may lose up to half the number of drives and still recover from it. 
 Data protection code is accelerated using SIMD instructions on x64 and ARM CPUs.
 * **Highly available:** Minio server can tolerate up to (N/2)-1 node failures in a distributed setup. 
-In addition, you can configure Minio server to continuously mirror data between Minio and any Amazon S3-compatible server.
+In addition, you can configure Minio server to continuously mirror data between Minio and
+any Amazon S3-compatible server.
 
 ## <a id="snapshot"></a>Product Snapshot
 
@@ -57,7 +59,7 @@ The following table provides version and version-support information about Minio
     <tr>
         <td>IaaS support</td>
         <td>AWS, Azure, GCP, OpenStack, and vSphere</td>
-    </tr>
+   </tr>
 </table>
  
 
