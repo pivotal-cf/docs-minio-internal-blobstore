@@ -6,6 +6,10 @@ owner: Partners
 This topic describes how to install and configure Minio Internal Blobstore for Pivotal Cloud Foundry (PCF).
 
 ##<a id='install'></a> Install Minio Internal Blobstore for PCF
+
+
+To install Minio Internal Blobstore for PCF, do the following:
+
 <ol>
 <li>Download the <strong>Minio Internal Blobstore for PCF</strong> tile from Pivotal Network.</li>
 <li>Navigate to the Ops Manager Installation Dashboard and click <strong>Import a Product</strong> to upload the tile.</li> 
@@ -14,6 +18,8 @@ This adds the tile to the staging area.</li>
 </ol>
 
 ##<a id='configure'></a> Configure Minio Internal Blobstore for PCF
+
+To configure Minio Internal Blobstore for PCF, do the following:
 
 <ol>
 <li>Click on the newly added <strong>Minio Internal Blobstore for PCF</strong> tile.</li>
@@ -87,22 +93,21 @@ For example if 6 instances are configured with each instance having 200G, total 
 
 Minio Client can be installed on the Ops Manager.
 
-Download <a href="https://minio.io/downloads.html#download-client">mc (Minio Client)</a>
+To inspect Minio Blobstore, do the following:
 
+1. Download Minio Client from <a href="https://minio.io/downloads.html#download-client">Minio Download</a>.
 ```sh
 wget https://dl.minio.io/client/mc/release/linux-amd64/mc
 chmod +x mc
 ./mc --help
 ```
 
-Configure mc:
-
+2. Configure Minio Client:
 ```sh
-./mc config host add myminio http://LOADBALANCER_IP ACCESS_KEY SECRET_KEY
+./mc config host add myminio http://LOADBALANCER-IP ACCESS-KEY SECRET-KEY
 ```
 
-List buckets in Minio blobstore:
-
+3. List buckets in Minio blobstore:
 ```sh
 ./mc ls myminio
 ```
