@@ -82,3 +82,27 @@ For example if 6 instances are configured with each instance having 200G, total 
   </ul>
 
 </ol>
+
+##<a id='inspect'></a> Inspect Minio Blobstore
+
+Minio Client can be installed on the Ops Manager.
+
+Download <a href="https://minio.io/downloads.html#download-client">mc (Minio Client)</a>
+
+```sh
+wget https://dl.minio.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+./mc --help
+```
+
+Configure mc:
+
+```sh
+./mc config host add myminio http://LOADBALANCER_IP ACCESS_KEY SECRET_KEY
+```
+
+List buckets in Minio blobstore:
+
+```sh
+./mc ls myminio
+```
