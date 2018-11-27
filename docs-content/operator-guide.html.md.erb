@@ -95,19 +95,22 @@ Minio Client can be installed on the Ops Manager.
 
 To inspect Minio Blobstore, do the following:
 
-1. Download Minio Client from <a href="https://minio.io/downloads.html#download-client">Minio Download</a>.
-```sh
-wget https://dl.minio.io/client/mc/release/linux-amd64/mc
-chmod +x mc
-./mc --help
-```
+1. To download the Minio Client, run the following commands:
 
-2. Configure Minio Client:
-```sh
-./mc config host add myminio http://LOADBALANCER-IP ACCESS-KEY SECRET-KEY
-```
+    ```
+    wget https://dl.minio.io/client/mc/release/linux-amd64/mc
+    chmod +x mc
+    ./mc --help
+    ```
 
-3. List buckets in Minio blobstore:
-```sh
-./mc ls myminio
-```
+2. To configure the Minio Client, run the following command:
+
+    ```
+    ./mc config host add myminio http://LOADBALANCER-IP ACCESS-KEY SECRET-KEY
+    ```
+
+3. To list buckets in Minio blobstore, run the following command:
+
+    ```
+    ./mc ls myminio
+    ```
