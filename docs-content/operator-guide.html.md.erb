@@ -37,7 +37,7 @@ To configure Minio Internal Blobstore for PCF, do the following:
 <img src="images/creds.png">
 
   <ul>
-  <li>Configure AccessKey for Minio, at least 5 characters. You can leave it to the default value of "minio".</li>
+  <li>Configure AccessKey for Minio, at least 5 characters. This can be left to the default value of "minio".</li>
   <li>Configure SecretKey for Minio, at least 8 characters. Type in a strong secret key.</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
@@ -52,12 +52,36 @@ tile while configuring the "External S3 Compatible blobstore" section.</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
 
+<li>Configure static IPs (optional)<br/>
+<img src="images/static-ips.png">
+
+<ul>
+<li>Configure static IPs for minio servers. This is optional. However if the TLS Certificates needs to be configured for HTTPS access (described in the next section), then the Static IPs must be configured and also the same static IPs must be provided for TLS Certificates (described in the next section).</li>
+<li>Click <strong>Save</strong>.</li>
+</ul>
+
+<li>Configure Certificates for HTTPS<br/>
+You can leave the form in the "Disable" state or "Enable" it.
+<img src="images/cert-enable-disable.png">
+
+To enable, click "Enable" and then click "Generate RSA Certificate"
+<img src="images/cert-enable1.png">
+
+Enter the IP addresses of minio servers that was configured in the "Configure Static IPs" form.
+<img src="images/cert-enable2.png">
+<img src="images/cert-enable3.png">
+
+<ul>
+<li>Click <strong>Save</strong>.</li>
+</ul>
+
 <li>Review errands.<br/>
 <img src="images/errands.png">
 
   <ul>
   <li>There are two post-deploy errands: one to create the default buckets, the other to do the smoke tests.</li>
   <li>There is one pre-delete errand which ensures that all the buckets have been deleted before removal of the tile.</li>
+  <li>Note: The errands should be disabled if the load-balancer instance count is set to 0 in the "Configure resources" section (described in the next section). This is because the errand tries to access the minio storage via the load-balancer instance and fails in case the load-balancer instance count is set to 0.</li>
   </ul>
 
 <li>Configure resources.<br/>
@@ -72,7 +96,7 @@ The cluster can sustain <i>n/2</i> number of instance failures and still be able
 For writes, atleast <i>(n/2)+1</i> number of instances should be available. 
 For example if 6 instances are configured with each instance having 200G, total usable space will be 600G <i>(6/2 * 200)</i>
   </li>
-  <li><strong>load-balancer:</strong> Load balancer for the Minio instances.</li>
+  <li><strong>load-balancer:</strong> Load balancer for the Minio instances. Load-balancer instance count can be set to 0 in case you would like to use an external load-balancer (like AWS LB or F5)</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
 
