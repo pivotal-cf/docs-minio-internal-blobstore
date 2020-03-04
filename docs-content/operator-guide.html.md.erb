@@ -3,26 +3,26 @@ title: Operator Guide
 owner: Partners
 ---
 
-This topic describes how to install and configure Minio Internal Blobstore for Pivotal Platform.
+This topic describes how to install and configure Minio Internal Blobstore for VMware Tanzu.
 
-##<a id='install'></a> Install Minio Internal Blobstore for Pivotal Platform
+##<a id='install'></a> Install Minio Internal Blobstore for VMware Tanzu
 
 
-To install Minio Internal Blobstore for Pivotal Platform, do the following:
+To install Minio Internal Blobstore for VMware Tanzu, do the following:
 
 <ol>
-<li>Download the <strong>Minio Internal Blobstore for Pivotal Platform</strong> tile from Pivotal Network.</li>
+<li>Download the <strong>Minio Internal Blobstore for VMware Tanzu</strong> tile from Pivotal Network.</li>
 <li>Navigate to the Ops Manager Installation Dashboard and click <strong>Import a Product</strong> to upload the tile.</li> 
-<li>Under the <strong>Import a Product</strong> button, click <strong>+</strong> next to the version number of Minio Internal Blobstore for Pivotal Platform. 
+<li>Under the <strong>Import a Product</strong> button, click <strong>+</strong> next to the version number of Minio Internal Blobstore for VMware Tanzu. 
 This adds the tile to the staging area.</li>
 </ol>
 
-##<a id='configure'></a> Configure Minio Internal Blobstore for Pivotal Platform
+##<a id='configure'></a> Configure Minio Internal Blobstore for VMware Tanzu
 
-To configure Minio Internal Blobstore for Pivotal Platform, do the following:
+To configure Minio Internal Blobstore for VMware Tanzu, do the following:
 
 <ol>
-<li>Click on the newly added <strong>Minio Internal Blobstore for Pivotal Platform</strong> tile.</li>
+<li>Click on the newly added <strong>Minio Internal Blobstore for VMware Tanzu</strong> tile.</li>
 <li>Assign AZs and Networks.<br/>
 <img src="images/az.png">
 
@@ -47,7 +47,7 @@ To configure Minio Internal Blobstore for Pivotal Platform, do the following:
 
   <ul>
   <li>Configure the bucket names.
-      The same bucket names has to be entered in the Pivotal Application Service (PAS) 
+      The same bucket names has to be entered in the VMware Tanzu Application Service for VMs (TAS for VMs) 
 tile while configuring the "External S3 Compatible blobstore" section.</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
@@ -108,7 +108,7 @@ For example if 6 instances are configured with each instance having 200G, total 
 
   <ul>
   <li>Click the newly installed tile and Click the "Status" tab.</li>
-  <li>Record the IP address of the load-balancer. This needs to be entered in the PAS tile while configuring the "External S3 Compatible blobstore" section.</li>
+  <li>Record the IP address of the load-balancer. This needs to be entered in the TAS for VMs tile while configuring the "External S3 Compatible blobstore" section.</li>
   </ul>
 
 </ol>
