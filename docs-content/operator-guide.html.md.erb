@@ -111,6 +111,17 @@ For example if 6 instances are configured with each instance having 200G, total 
   <li>Record the IP address of the load-balancer. This needs to be entered in the TAS for VMs tile while configuring the "External S3 Compatible blobstore" section.</li>
   </ul>
 
+<li>Configure File Storage in your Application Service Tile<br/>
+  <ul>
+  <li>Under "Configure your Cloud Controller's filesystem" select "External S3-compatible filestore"</li>
+  <li>For "URL endpoint", provide the previously recorded load-balancer IP address in the form of "http://<IP address>"</li>
+  <li>The "Access Key" and "Secret Key" are the previously recoreded AccessKey and SecretKey.</li>
+  <li>The "S3 signature version" should be set to "V2 Signature"</li>
+  <li>The "Region" should be set to "us-east-1".</br><i>Note: Even though Minio has no concept of regions, it maintains this interface to be compatible with AWS S3 and is required to be filled in.</i></li>
+  <li>The Buildpacks, Droplets, Packages, and Resources bucket names should match the ones from the "Buckets" pane in the Minio tile.</li>
+  <li><strong>Warning:</strong> Minio currently does not support versioned backup, if you'd like to setup backups, proceed to the Enable Blobstore Backups Section.</li>
+  </ul>
+
 </ol>
 
 ##<a id='inspect'></a> Inspect Minio Blobstore
@@ -121,6 +132,7 @@ To inspect Minio Blobstore, do the following:
 
 1. To download the Minio Client, run the following commands:
     For tile version 1.0.9, please use mc version "2019-10-09T22:54:57Z"
+
     ```
     wget -O mc http://dl.minio.io/client/mc/release/linux-amd64/archive/mc.RELEASE.2019-10-09T22-54-57Z
     chmod +x mc
@@ -138,3 +150,21 @@ To inspect Minio Blobstore, do the following:
     ```
     ./mc ls myminio
     ```
+
+##<a id='backups'></a> Enable Blobstore Backups
+
+Minio can be used for non-versioned backups. To enable backups run the following:
+
+1. Create the backup buckets with the Minio CLI. First follow steps 1 and 2 in "Inspect Minio Blobstore". <i>Note: The bucket name is everything after the "myminio/". These names can be anything as long as they are unique.</i> Then run the following commands:
+
+    ```
+    ./mc mb myminio/buildpacks-backup
+    ./mc mb myminio/droplets-backup
+    ./mc mb myminio/packages-backup
+    ```
+
+2. Configure backups in File Storage in your Application Service Tile
+  <ul>
+    <li>The "Backup region" should be set to "us-east-1".</li>
+    <li>Fill in the bucket name from step 1 into Backup buildpacks, droplets, and package bucket name.</li>
+  </ul>
