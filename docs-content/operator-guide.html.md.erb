@@ -27,11 +27,18 @@ To configure Minio Internal Blobstore for VMware Tanzu, do the following:
 <img src="images/az.png">
 
   <ul>
-  <li>Configure region for singleton jobs (load-balancer).</li>
-  <li>Configure regions for other jobs (minio-server).</li>
+  <li>Configure regions.</li>
   <li>Configure the Network.</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
+
+<li>Configure System Domain.<br/>
+<img src="images/system-domain.png">
+
+<ul>
+<li>Configure the System Domain. This should be the same System Domain that will be configured in the VMware Tanzu Application Service for VMs (TAS for VMs) tile. System Domain is used to construct the BOSH-DNS Alias for the MinIO Internal Blobstore. For ex. if System Domain is configured as <i>system.example.com</i> then the BOSH-DNS Alias for the MinIO Blobstore will be <i>minio-internal-blobstore.system.example.com</i>. This can be used as S3 endpoint in the Tanzu Application Servcie Tile.</li>
+<li>Click <strong>Save</strong>.</li>
+</ul>
 
 <li>Configure Credentials.<br/>
 <img src="images/creds.png">
@@ -39,6 +46,7 @@ To configure Minio Internal Blobstore for VMware Tanzu, do the following:
   <ul>
   <li>Configure AccessKey for Minio, at least 5 characters. This can be left to the default value of "minio".</li>
   <li>Configure SecretKey for Minio, at least 8 characters. Type in a strong secret key.</li>
+  <li>The configured AccessKey and SecretKey should be used for S3 Credentials in the Tanzu Application Service Tile's File Storage configuration.</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
 
@@ -46,9 +54,8 @@ To configure Minio Internal Blobstore for VMware Tanzu, do the following:
 <img src="images/buckets.png">
 
   <ul>
-  <li>Configure the bucket names.
-      The same bucket names has to be entered in the VMware Tanzu Application Service for VMs (TAS for VMs) 
-tile while configuring the "External S3 Compatible blobstore" section.</li>
+  <li>Configure the bucket names. The default values can be left as is.</li>
+  <li>The same bucket names has to be entered in the VMware Tanzu Application Service for VMs (TAS for VMs) tile while configuring the "External S3 Compatible blobstore" section.</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
 
@@ -67,7 +74,7 @@ You can leave the form in the "Disable" state or "Enable" it.
 To enable, click "Enable" and then click "Generate RSA Certificate"
 <img src="images/cert-enable1.png">
 
-Enter the IP addresses of minio servers that was configured in the "Configure Static IPs" form.
+Enter the MinIO BOSH-DNS Alias (ex. <i>minio-internal-blobstore.system.example.com</i>) and IP addresses of minio servers that was configured in the "Configure Static IPs" form. The list needs to be comma separated. (The IP addresses are not visible in the below screeshot)
 <img src="images/cert-enable2.png">
 <img src="images/cert-enable3.png">
 
@@ -75,13 +82,20 @@ Enter the IP addresses of minio servers that was configured in the "Configure St
 <li>Click <strong>Save</strong>.</li>
 </ul>
 
+<li>TAS Tile<br/>
+<img src="images/tas-tile.png">
+
+  <ul>
+  <li>Choose if TAS Tile for VMs is already installed or not. If "Yes" is chosen, routes to MinIO will be published to the Gorouter for external access (ex. <i>cf curl</i>).</li>
+  <li>Click <strong>Save</strong>.</li>
+  </ul>
+
 <li>Review errands.<br/>
 <img src="images/errands.png">
 
   <ul>
   <li>There are two post-deploy errands: one to create the default buckets, the other to do the smoke tests.</li>
   <li>There is one pre-delete errand which ensures that all the buckets have been deleted before removal of the tile.</li>
-  <li>Note: The errands should be disabled if the load-balancer instance count is set to 0 in the "Configure resources" section (described in the next section). This is because the errand tries to access the minio storage via the load-balancer instance and fails in case the load-balancer instance count is set to 0.</li>
   </ul>
 
 <li>Configure resources.<br/>
@@ -96,19 +110,22 @@ The cluster can sustain <i>n/2</i> number of instance failures and still be able
 For writes, atleast <i>(n/2)+1</i> number of instances should be available. 
 For example if 6 instances are configured with each instance having 200G, total usable space will be 600G <i>(6/2 * 200)</i>
   </li>
-  <li><strong>load-balancer:</strong> Load balancer for the Minio instances. Load-balancer instance count can be set to 0 in case you would like to use an external load-balancer (like AWS LB or F5)</li>
+  <li><strong>load-balancer:</strong> Load balancer for the MinIO instances. Should be set to 1. Load balancer will be removed in the future Tile versions. BOSH DNS alias of the MinIO Internal Blobstore (ex. <i>minio-internal-blobstore.system.example.com</i>) should be used instead of the load-balancer. In the tile version 1.0.10, instance count should be set to 1 as errands use the load-balancer to access MinIO. Also load-balancer instance advertises MinIO routes to the Gorouter for external access.</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
 
 <li>Return to the Ops Manager Installation Dashboard and click <strong>Review Pending Changes</strong> and then <strong>Apply Changes</strong> to install the Minio Internal Blobstore tile.</li>
 <img src="images/applying-changes.png">
 
-<li>Record the IP address of the load-balancer.<br/>
-  <img src="images/status.png">
-
+<li>Note down the MinIO Internal Blobstore access details<br/>
   <ul>
-  <li>Click the newly installed tile and Click the "Status" tab.</li>
-  <li>Record the IP address of the load-balancer. This needs to be entered in the TAS for VMs tile while configuring the "External S3 Compatible blobstore" section.</li>
+  <li>Note down the BOSH DNS alias ("minio-internal-blobstore" + SystemDomain). For example if you configured SystemDomain as <i>system.example.com</i> , then MinIO BOSH DNS alias will be <i>minio-internal-blobstore.system.example.com</i></li>
+  <li>Note down the AccessKey and SecretKey that was configured in step-4.</li>
+  <li>Note down the bucket names configured in step-5</li>
+  <li>The above values should to be configured in the TAS for VMs Tile's File Storage configuration in the “External S3 Compatible blobstore” section.</li>
+  <img src="images/tas-tile-s3-blobstore.png">
+  <li>When you save this S3 configuration in the TAS tile for VMs, it will show the following warning which can be ignored. This is because the BOSH DNS alias of MinIO will not be reachable from the Ops Manager. You can choose <i>"Apply anyway"</i> option. Once the VMs for the TAS tile for VMs are deployed, the BOSH DNS alias for MinIO will be resolvable in all the VMs of the TAS tile.</li>
+  <img src="images/warning.png">
   </ul>
 
 </ol>
@@ -120,9 +137,8 @@ Minio Client can be installed on the Ops Manager.
 To inspect Minio Blobstore, do the following:
 
 1. To download the Minio Client, run the following commands:
-    For tile version 1.0.9, please use mc version "2019-10-09T22:54:57Z"
     ```
-    wget -O mc http://dl.minio.io/client/mc/release/linux-amd64/archive/mc.RELEASE.2019-10-09T22-54-57Z
+    wget -O mc http://dl.minio.io/client/mc/release/linux-amd64/mc
     chmod +x mc
     ./mc --help
     ```
@@ -130,9 +146,9 @@ To inspect Minio Blobstore, do the following:
 2. To configure the Minio Client, run the following command:
 
     ```
-    ./mc config host add myminio http://LOADBALANCER-IP ACCESS-KEY SECRET-KEY
+    ./mc config host add myminio http://MINIO-SERVER-IP ACCESS-KEY SECRET-KEY
     ```
-
+   MINIO-SERVER-IP can be one of the MinIO server's IP address.
 3. To list buckets in Minio blobstore, run the following command:
 
     ```
