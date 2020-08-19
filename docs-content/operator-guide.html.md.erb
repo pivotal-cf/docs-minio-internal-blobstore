@@ -136,7 +136,7 @@ Minio Client can be installed on the Ops Manager.
 
 To inspect Minio Blobstore, do the following:
 
-1. To download the Minio Client, run the following commands:
+1. To download the latest versio of Minio Client, run the following commands:
     ```
     wget -O mc http://dl.minio.io/client/mc/release/linux-amd64/mc
     chmod +x mc
@@ -154,3 +154,43 @@ To inspect Minio Blobstore, do the following:
     ```
     ./mc ls myminio
     ```
+
+##<a id='version'></a> Enable Versioning on the buckets
+
+MinIO's S3 compatible bucket versioning support can be used for efficient BOSH Backup and Restore.
+
+```
+$ mc version enable myminio/buildpacks
+$ mc version enable myminio/droplets
+$ mc version enable myminio/packages
+```
+
+Apply lifecycle policy to the three buckets:
+
+```
+$ mc ilm  import myminio/test < lifecycle.json
+$ mc ilm  import myminio/test < lifecycle.json
+$ mc ilm  import myminio/test < lifecycle.json
+```
+
+lifecycle.json specifies the lifecycle policy:
+
+```
+{
+  "Rules": [
+    {
+      "ID": "expire-non-current",
+      "Status": "Enabled",
+      "Expiration": {
+        "ExpiredObjectDeleteMarker": true
+      },
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 30
+      }
+    }
+  ]
+}
+```
+
+i.e the policy ensures that the deleted objects gets purged from the system after 30 days.
+
