@@ -110,7 +110,6 @@ The cluster can sustain <i>n/2</i> number of instance failures and still be able
 For writes, atleast <i>(n/2)+1</i> number of instances should be available. 
 For example if 6 instances are configured with each instance having 200G, total usable space will be 600G <i>(6/2 * 200)</i>
   </li>
-  <li><strong>load-balancer:</strong> Load balancer for the MinIO instances. Should be set to 1. Load balancer will be removed in the future Tile versions. BOSH DNS alias of the MinIO Internal Blobstore (ex. <i>minio-internal-blobstore.system.example.com</i>) should be used instead of the load-balancer. In the tile version 1.0.10, instance count should be set to 1 as errands use the load-balancer to access MinIO. Also load-balancer instance advertises MinIO routes to the Gorouter for external access.</li>
   <li>Click <strong>Save</strong>.</li>
   </ul>
 
@@ -194,3 +193,4 @@ lifecycle.json specifies the lifecycle policy:
 
 i.e the policy ensures that the deleted objects gets purged from the system after 30 days.
 
+NOTE: Please note that this tile creates a deployment with the name minio-internal-blobstore. Make sure that you do not have any other custom BOSH deployment that starts with the string <i>minio-internal-blobstore</i> as it causes issues with MinIO's BOSH DNS name resolution.
