@@ -7,13 +7,12 @@ This topic describes how to install and configure Minio Internal Blobstore for V
 
 ##<a id='install'></a> Install Minio Internal Blobstore for VMware Tanzu
 
-
 To install Minio Internal Blobstore for VMware Tanzu, do the following:
 
 <ol>
 <li>Download the <strong>Minio Internal Blobstore for VMware Tanzu</strong> tile from Pivotal Network.</li>
-<li>Navigate to the Ops Manager Installation Dashboard and click <strong>Import a Product</strong> to upload the tile.</li> 
-<li>Under the <strong>Import a Product</strong> button, click <strong>+</strong> next to the version number of Minio Internal Blobstore for VMware Tanzu. 
+<li>Navigate to the Ops Manager Installation Dashboard and click <strong>Import a Product</strong> to upload the tile.</li>
+<li>Under the <strong>Import a Product</strong> button, click <strong>+</strong> next to the version number of Minio Internal Blobstore for VMware Tanzu.
 This adds the tile to the staging area.</li>
 </ol>
 
@@ -74,7 +73,7 @@ You can leave the form in the "Disable" state or "Enable" it.
 To enable, click "Enable" and then click "Generate RSA Certificate"
 <img src="images/cert-enable1.png">
 
-Enter the MinIO BOSH-DNS Alias (ex. <i>minio-internal-blobstore.system.example.com</i>) and IP addresses of minio servers that was configured in the "Configure Static IPs" form. The list needs to be comma separated. (The IP addresses are not visible in the below screeshot)
+Enter the MinIO BOSH-DNS Alias (ex. <i>minio-internal-blobstore.system.example.com</i>) and IP addresses of minio servers that was configured in the "Configure Static IPs" form. The list needs to be comma-separated. (The IP addresses are not visible in the below screenshot)
 <img src="images/cert-enable2.png">
 <img src="images/cert-enable3.png">
 
@@ -102,12 +101,12 @@ Enter the MinIO BOSH-DNS Alias (ex. <i>minio-internal-blobstore.system.example.c
 <img src="images/resource-config.png">
 
   <ul>
-  <li><strong>minio-server:</strong> For distributed mode, the number of instances should be an even number (atleast 4 and atmost 16). 
-You can select the disk size based on the requirements. Usable space of the Minio cluster is calculated as <i>(n/2)*d</i> 
-where <i>n</i> is the number of instances and <i>d</i> is the disk size on each instance. 
-Half the instances store the data and the other half of the instances store the parity. 
-The cluster can sustain <i>n/2</i> number of instance failures and still be able to serve read requests. 
-For writes, atleast <i>(n/2)+1</i> number of instances should be available. 
+  <li><strong>minio-server:</strong> For distributed mode, the number of instances should be an even number (at least 4 and at most 16).
+You can select the disk size based on the requirements. Usable space of the Minio cluster is calculated as <i>(n/2)*d</i>.
+where <i>n</i> is the number of instances and <i>d</i> is the disk size on each instance.
+Half the instances store the data and the other half of the instances store the parity.
+The cluster can sustain <i>n/2</i> number of instance failures and still be able to serve read requests.
+For writes, at least <i>(n/2)+1</i> number of instances should be available.
 For example if 6 instances are configured with each instance having 200G, total usable space will be 600G <i>(6/2 * 200)</i>
   </li>
   <li>Click <strong>Save</strong>.</li>
@@ -119,11 +118,11 @@ For example if 6 instances are configured with each instance having 200G, total 
 <li>Note down the MinIO Internal Blobstore access details<br/>
   <ul>
   <li>Note down the BOSH DNS alias ("minio-internal-blobstore" + SystemDomain). For example if you configured SystemDomain as <i>system.example.com</i> , then MinIO BOSH DNS alias will be <i>minio-internal-blobstore.system.example.com</i></li>
-  <li>Note down the AccessKey and SecretKey that was configured in step-4.</li>
-  <li>Note down the bucket names configured in step-5</li>
-  <li>The above values should to be configured in the TAS for VMs Tile's File Storage configuration in the “External S3 Compatible blobstore” section.</li>
+  <li>Note down the AccessKey and SecretKey that was configured in step 4.</li>
+  <li>Note down the bucket names configured in step 5.</li>
+  <li>The above values should be configured in the TAS for VMs Tile's File Storage configuration in the “External S3 Compatible blobstore” section.</li>
   <img src="images/tas-tile-s3-blobstore.png">
-  <li>When you save this S3 configuration in the TAS tile for VMs, it will show the following warning which can be ignored. This is because the BOSH DNS alias of MinIO will not be reachable from the Ops Manager. You can choose <i>"Apply anyway"</i> option. Once the VMs for the TAS tile for VMs are deployed, the BOSH DNS alias for MinIO will be resolvable in all the VMs of the TAS tile.</li>
+  <li>When you save this S3 configuration in the TAS tile for VMs, it will show the following warning which can be ignored. This is because the BOSH DNS alias of MinIO will not be reachable from the Ops Manager. You can choose <strong>Apply anyway</strong> option. Once the VMs for the TAS tile for VMs are deployed, the BOSH DNS alias for MinIO will be resolvable in all the VMs of the TAS tile.</li>
   <img src="images/warning.png">
   </ul>
 
@@ -136,6 +135,7 @@ Minio Client can be installed on the Ops Manager.
 To inspect Minio Blobstore, do the following:
 
 1. To download the latest version of Minio Client, run the following commands:
+
     ```
     wget -O mc http://dl.minio.io/client/mc/release/linux-amd64/mc
     chmod +x mc
@@ -147,7 +147,8 @@ To inspect Minio Blobstore, do the following:
     ```
     ./mc config host add myminio http://MINIO-SERVER-IP ACCESS-KEY SECRET-KEY
     ```
-   MINIO-SERVER-IP can be one of the MinIO server's IP address.
+   'MINIO-SERVER-IP' can be one of the MinIO server's IP address.
+
 3. To list buckets in Minio blobstore, run the following command:
 
     ```
@@ -172,7 +173,7 @@ $ mc ilm  import myminio/test < lifecycle.json
 $ mc ilm  import myminio/test < lifecycle.json
 ```
 
-lifecycle.json specifies the lifecycle policy:
+'lifecycle.json' specifies the lifecycle policy:
 
 ```
 {
@@ -191,6 +192,6 @@ lifecycle.json specifies the lifecycle policy:
 }
 ```
 
-i.e the policy ensures that the deleted objects gets purged from the system after 30 days.
+i.e the policy ensures that the deleted objects get purged from the system after 30 days.
 
-NOTE: Please note that this tile creates a deployment with the name minio-internal-blobstore. Make sure that you do not have any other custom BOSH deployment that starts with the string <i>minio-internal-blobstore</i> as it causes issues with MinIO's BOSH DNS name resolution.
+NOTE: Please note that this tile creates a deployment with the name minio-internal-blobstore. Make sure that you do not have any other custom BOSH deployment that starts with the string "minio-internal-blobstore" as it causes issues with MinIO's BOSH DNS name resolution.
