@@ -10,7 +10,7 @@ This topic describes how to install and configure Minio Internal Blobstore for V
 To install Minio Internal Blobstore for VMware Tanzu, do the following:
 
 <ol>
-<li>Download the <strong>Minio Internal Blobstore for VMware Tanzu</strong> tile from Pivotal Network.</li>
+<li>Download the <strong>Minio Internal Blobstore for VMware Tanzu</strong> tile from VMware Tanzu Network.</li>
 <li>Navigate to the Ops Manager Installation Dashboard and click <strong>Import a Product</strong> to upload the tile.</li>
 <li>Under the <strong>Import a Product</strong> button, click <strong>+</strong> next to the version number of Minio Internal Blobstore for VMware Tanzu.
 This adds the tile to the staging area.</li>
@@ -70,7 +70,8 @@ To configure Minio Internal Blobstore for VMware Tanzu, do the following:
 You can leave the form in the "Disable" state or "Enable" it.
 <img src="images/cert-enable-disable.png">
 
-To enable, click "Enable" and then click "Generate RSA Certificate"
+To enable, click "Enable" and then click "Generate RSA Certificate".
+
 <img src="images/cert-enable1.png">
 
 Enter the MinIO BOSH-DNS Alias (ex. <i>minio-internal-blobstore.system.example.com</i>) and IP addresses of minio servers that was configured in the "Configure Static IPs" form. The list needs to be comma-separated. (The IP addresses are not visible in the below screenshot)
@@ -147,7 +148,8 @@ To inspect Minio Blobstore, do the following:
     ```
     ./mc config host add myminio http://MINIO-SERVER-IP ACCESS-KEY SECRET-KEY
     ```
-   'MINIO-SERVER-IP' can be one of the MinIO server's IP address.
+
+   `MINIO-SERVER-IP` can be one of the MinIO server's IP address.
 
 3. To list buckets in Minio blobstore, run the following command:
 
@@ -173,7 +175,7 @@ $ mc ilm  import myminio/test < lifecycle.json
 $ mc ilm  import myminio/test < lifecycle.json
 ```
 
-'lifecycle.json' specifies the lifecycle policy:
+`lifecycle.json` specifies the lifecycle policy:
 
 ```
 {
